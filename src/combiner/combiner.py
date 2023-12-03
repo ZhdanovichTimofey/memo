@@ -1,4 +1,4 @@
-class Combiner():
+class Combiner:
     def __init__(self, diarization, text_with_time):
         self.diar = diarization
         self.text = text_with_time
@@ -11,10 +11,10 @@ class Combiner():
 
     def prepare_dict(self):
         for text_seg, text in self.text:
-            #start = self.format_time(text_seg[0])  # added
-            #stop = self.format_time(text_seg[1])  # added
-            #text = f'{start} - {stop}: '  # added
-            #text += '\n'  # added
+            # start = self.format_time(text_seg[0])  # added
+            # stop = self.format_time(text_seg[1])  # added
+            # text = f'{start} - {stop}: '  # added
+            # text += '\n'  # added
             max_cross = 0
             argmax = 0
             for i, [diar_seg, _] in enumerate(self.diar):
@@ -24,7 +24,7 @@ class Combiner():
                     argmax = i
             try:
                 self.dict[argmax] += text
-            except:
+            except Exception:
                 self.dict[argmax] = text
         return self.dict
 
@@ -33,8 +33,8 @@ class Combiner():
         for i in range(len(self.diar)):
             [start, stop], speaker = self.diar[i]
             if i in self.dict.keys():
-                start_time = self.format_time(start)
-                stop_time = self.format_time(stop)
+                # start_time = self.format_time(start)
+                # stop_time = self.format_time(stop)
                 final_text.append([self.dict[i], speaker])
         return final_text
 
@@ -55,7 +55,7 @@ class Combiner():
 
     def format_time(self, tm):
         hours, mins, secs = self.convert_time(tm)
-        ans = ''
+        ans = ""
 
         if hours != 0:
             ans += str(hours) + ":"

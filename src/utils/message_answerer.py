@@ -1,7 +1,10 @@
+import logging
+
+from config.config import (POSSIBLE_EXTENTIONS, START_MESSAGE,
+                           UNSUPPORTED_TYPE_MESSAGE)
 from src.utils.tg_parser import get_fileid_and_ext, get_text
 from src.utils.tg_requests import send_message
-from config.config import UNSUPPORTED_TYPE_MESSAGE, POSSIBLE_EXTENTIONS, START_MESSAGE
-import logging
+
 
 def answer_message(data, chat_id):
     try:
@@ -9,9 +12,9 @@ def answer_message(data, chat_id):
     except Exception as e:
         logging.error(str(e))
         return False, False
-        
-    if ext == 'txt' and get_text(data) == '/start':
-        send_message(chat_id, START_MESSAGE) 
+
+    if ext == "txt" and get_text(data) == "/start":
+        send_message(chat_id, START_MESSAGE)
         return False, False
 
     if not ext or ext not in POSSIBLE_EXTENTIONS:
@@ -19,4 +22,3 @@ def answer_message(data, chat_id):
         return False, False
 
     return file_id, ext
-
