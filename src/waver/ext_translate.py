@@ -20,7 +20,8 @@ def get_filename(filepath):
 def mp3_translate(filepath):
 
     wav_filepath = get_filename(filepath)
-
+    print(filepath)
+    print(wav_filepath)
     subprocess.run(
         [
             "ffmpeg",
