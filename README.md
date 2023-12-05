@@ -15,5 +15,10 @@
 Перед запуском необходимо в созданном под проект виртуальном окружении прописать:
 pip install -r requirements.txt
 
-Для запуска приложения:
-python server.py
+### Для запуска приложения на windows:
+
+Переходим в папку с проектом (Desktop/projects/memo)
+
+Активируем виртуальное окружение: в PowerShell venv\Scripts\Activate.ps1
+
+Далее запускаем приложение: python server.py
