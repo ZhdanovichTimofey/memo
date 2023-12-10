@@ -25,9 +25,10 @@ def save_to_docx(text, file_name):
 
     document = Document()
     for paragraph in text.split("\n"):
-        document.add_paragraph(
-            paragraph, style='List Bullet'
-        )
+        if (len(paragraph) >= 1):
+            document.add_paragraph(
+                paragraph, style='List Bullet'
+            )
 
     document.save(filepath)
 
