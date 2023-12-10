@@ -11,7 +11,7 @@ from src.diarizator.diarizator import Diarizator
 from src.downloader.downloader import Downloader
 from src.summarizer.summarizer import Summarizer
 from src.utils.exceptions import TooBigFile
-from src.utils.file_funcs import save_to_txt
+from src.utils.file_funcs import save_to_txt, save_to_docx
 from src.utils.tg_requests import send_document, send_message
 from src.wav_splitter.wav_splitter import WavSplitter
 from src.waver.waver import Waver
@@ -140,6 +140,9 @@ class Worker:
         if summary:
             filename += "_summary"
             caption = "Краткое резюме"
-        filename += ".txt"
+            filename += ".docx"
+            send_document(save_to_docx(text, filename), self.chat_id, caption)
+        else:
+            filename += ".txt"
 
-        send_document(save_to_txt(text, filename), self.chat_id, caption)
+            send_document(save_to_txt(text, filename), self.chat_id, caption)

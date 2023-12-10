@@ -26,7 +26,7 @@ class Summarizer:
         size = len(summaries)
         summary = ""
         for i, part in enumerate(summaries):
-            summary += f"Часть {i + 1} из {size}:\n"
+            #summary += f"Часть {i + 1} из {size}:\n"
             if part.split("\n")[0] == "Тезисы:":
                 part = "\n".join(part.split("\n")[1:])
             summary += part + "\n\n"
