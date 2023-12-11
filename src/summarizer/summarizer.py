@@ -7,13 +7,20 @@ MODEL = "gpt-3.5-turbo-1106"
 MAX_WORDS = 1000  # max_tokens = 2048
 
 
-system_prompt = """Твоя задача выделить главную информацию из записи совещания.
+sys_prompt = """Твоя задача выделить главную информацию из записи совещания.
             Выдели несколько главных тезисов, которые обсуждались и перечисли их.
             Постарайся сохранить важные детали.
             Твой ответ должен соответствовать следующи требованиям:
-            1) Первый абзац должен содержать главную мысль ВСЕЙ ЗАПИСИ
+            1) Первый абзац должен содержать главную мысль ВСЕЙ ЗАПИСИ.
             2) Следующие абзацы должны содержать ТОЛЬКО ТЕЗИСЫ, в формате "-{Тезис}\n".
             """
+
+optional_prompt = """Твоя задача составить ОДИН вопрос с ЧЕТЫРЬМЯ вариантами ответа по записи семинара. 
+                Ты должен предложить правильный вариант ответа. 
+                Результат должен соответствовать следующим требованиям:
+                1) Первый абзац - текст вопроса.
+                2) Четыре следующих абзаца - варианты ответов.
+                3) Последний абзац - правильный ответ."""
 
 
 class Summarizer:
@@ -61,8 +68,29 @@ class Summarizer:
         text.append(curr_text)
         return text
 
-    def get_completion(self, prompt, model=MODEL):
+    def get_completion(self, prompt, system_prompt=sys_prompt, model=MODEL):
         messages = [SystemMessage(content=system_prompt)]
         messages.append(HumanMessage(content=prompt))
         response = self.chat(messages)
         return response.content
+
+    def get_question(self):
+        texts = self.prepare_texts()
+        result = []
+        for text in texts:
+            prompt = text
+            try:
+                response = self.get_completion(prompt=prompt, system_prompt=optional_prompt)
+            except Exception:
+                response = self.get_completion(prompt=prompt, system_prompt=optional_prompt)
+            result.append(response)
+        return result
+
+    def get_questions(self):
+        questions = self.get_question()
+        size = len(questions)
+        quest = ""
+        for i, part in enumerate(questions):
+            #summary += f"Часть {i + 1} из {size}:\n"
+            quest += part + "\n\n"
+        return quest

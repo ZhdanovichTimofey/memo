@@ -80,6 +80,8 @@ class Worker:
 
             summarized_text = self.summarize(combined_text)
 
+            text_questions = self.quests(combined_text)
+
         except Exception as e:
             self.is_running = False
             self.lock.release()
@@ -94,12 +96,20 @@ class Worker:
         print(summarized_text)
         self.send_text(filepath, summarized_text, summary=True)
 
+        print(text_questions)
+        self.send_text(filepath, text_questions, summary=False, questions=True)
+
         self.is_running = False
 
     def summarize(self, combined_text):
         summarizer = Summarizer(combined_text)
         summary = summarizer.summarize()
         return summary
+
+    def quests(self, combined_text):
+        summarizer = Summarizer(combined_text)
+        questions = summarizer.get_questions()
+        return questions
 
     def combine(self, diarization, text_with_time):
         combiner = Combiner(diarization, text_with_time)
@@ -133,13 +143,18 @@ class Worker:
         send_message(self.chat_id, DONE_MESSAGE)
         return text_with_time
 
-    def send_text(self, filepath, text, summary=False):
+    def send_text(self, filepath, text, summary=False, questions=False):
         dir, filename = os.path.split(filepath)
         filename, ext = os.path.splitext(filename)
         caption = "Ваша полная транскрибация"
         if summary:
             filename += "_summary"
             caption = "Краткое резюме"
+            filename += ".docx"
+            send_document(save_to_docx(text, filename), self.chat_id, caption)
+        elif questions:
+            filename += "_questions"
+            caption = "Вопросы по тексту"
             filename += ".docx"
             send_document(save_to_docx(text, filename), self.chat_id, caption)
         else:
