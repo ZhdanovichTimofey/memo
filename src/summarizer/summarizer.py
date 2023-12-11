@@ -1,4 +1,4 @@
-ааааааааааааааааааfrom langchain.chat_models.gigachat import GigaChat
+from langchain.chat_models.gigachat import GigaChat
 from langchain.schema import HumanMessage, SystemMessage
 
 from config.config import SBER_API_KEY
