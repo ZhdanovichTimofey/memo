@@ -34,8 +34,8 @@ class Whisper:
 
     def __call__(self, audio_path, chat_id):
         transcribe_module = sys.modules["whisper.transcribe"]
-        _CustomProgressBar = make_progressbar(chat_id)
-        transcribe_module.tqdm.tqdm = _CustomProgressBar
+        # _CustomProgressBar = make_progressbar(chat_id)
+        # transcribe_module.tqdm.tqdm = _CustomProgressBar
         # transcribe_module.tqdm.tqdm.chat_id = chat_id
 
         with torch.no_grad():
