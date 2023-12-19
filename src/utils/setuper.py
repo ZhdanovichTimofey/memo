@@ -7,6 +7,7 @@ from config.config import TELEGRAM_TOKEN
 def start_ngrok():
     http_tunnel = ngrok.connect(
         addr="localhost:5000",
+        authtoken_from_env=True
     )
     print(http_tunnel.public_url)
     return http_tunnel.public_url
