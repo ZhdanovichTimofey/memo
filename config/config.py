@@ -20,6 +20,11 @@ try:
     print("SBER_API_KEY", SBER_API_KEY)
 except Exception:
     raise VarNotFoundException("SBER_API_KEY")
+try:
+    NGROK_AUTH_TOKEN = os.environ["NGROK_AUTH_TOKEN"]
+    print("NGROK_AUTH_TOKEN", NGROK_AUTH_TOKEN)
+except Exception:
+    raise VarNotFoundException("NGROK_AUTH_TOKEN")
 
 FRAMERATE = 16000
 

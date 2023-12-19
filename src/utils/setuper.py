@@ -2,9 +2,11 @@ import requests
 from pyngrok import ngrok
 
 from config.config import TELEGRAM_TOKEN
+from config.config import NGROK_AUTH_TOKEN
 
 
 def start_ngrok():
+    ngrok.set_auth_token(NGROK_AUTH_TOKEN)
     http_tunnel = ngrok.connect(
         addr="localhost:5000",
         authtoken_from_env=True
