@@ -6,10 +6,9 @@ from config.config import NGROK_AUTH_TOKEN
 
 
 def start_ngrok():
-    ngrok.set_auth_token(NGROK_AUTH_TOKEN)
+    #ngrok.set_auth_token(NGROK_AUTH_TOKEN)
     http_tunnel = ngrok.connect(
         addr="localhost:5000",
-        authtoken_from_env=True
     )
     print(http_tunnel.public_url)
     return http_tunnel.public_url
